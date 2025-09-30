@@ -1,6 +1,14 @@
 pipeline {
   agent any
 
+  parameters {
+    booleanParam(name: 'DEPLOY_LOCAL', defaultValue: true, description: 'Deploy to local Docker Desktop?')
+    booleanParam(name: 'DOCKER_BUILD', defaultValue: true, description: 'Build Docker image?')
+    string(name: 'APP_PORT', defaultValue: '8081', description: 'Application port for health check')
+    string(name: 'IMAGE', defaultValue: 'my-app', description: 'Docker image name')
+    string(name: 'VERSION', defaultValue: 'latest', description: 'Docker image tag')
+  }
+
   tools {
     jdk 'jdk17'
     maven 'maven3'
@@ -60,18 +68,30 @@ pipeline {
       }
     }
 
+    stage('Docker Build') {
+      when { expression { return params.DOCKER_BUILD } }
+      steps {
+        sh """
+          docker build -t ${IMAGE}:${VERSION} \
+                       -t ${IMAGE}:latest \
+                       -f Dockerfile .
+        """
+      }
+    }
+
     stage('Deploy: Local (Docker Desktop)') {
       when { expression { return params.DEPLOY_LOCAL && params.DOCKER_BUILD } }
       steps {
         // Redeploy locally with compose
-        sh '''
+        sh """
           export IMAGE='${IMAGE}'
           export TAG='${VERSION}'
           docker compose -f docker-compose.local.yml down || true
           docker compose -f docker-compose.local.yml up -d
-        '''
-        // Quick health check (adjust if you changed the path)
-        sh '''
+        """
+
+        // Quick health check
+        sh """
           for i in {1..30}; do
             code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_PORT}/actuator/health || true)
             [ "$code" = "200" ] && exit 0
@@ -79,7 +99,7 @@ pipeline {
           done
           echo "Health check failed"
           exit 1
-        '''
+        """
       }
     }
   }
