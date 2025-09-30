@@ -60,19 +60,20 @@ pipeline {
       }
     }
 
-    stage('Deploy: Staging') {
+    stage('Deploy: Local (Docker Desktop)') {
+      when { expression { return params.DEPLOY_LOCAL && params.DOCKER_BUILD } }
       steps {
-        sshagent(credentials: ['staging-ssh']) {
-          bat """
-            scripts/deploy.sh staging.example.com docker/docker-compose.staging.yml ${IMAGE} ${VERSION}
-          """
-        }
-        bat """
-          scripts/smoke_test.sh http://staging.example.com:${APP_PORT}/actuator/health
-        """
+        // Redeploy locally with compose
+        sh '''
+          export IMAGE='${IMAGE}'
+          export TAG='${VERSION}'
+          docker compose -f docker-compose.local.yml down || true
+          docker compose -f docker-compose.local.yml up -d
+        '''
+        // Quick health check (adjust if you changed the path)
+        sh 'for i in {1..30}; do code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_PORT}/actuator/health || true); [ "$code" = "200" ] && exit 0; sleep 2; done; echo "Health check failed" && exit 1'
       }
     }
-  }
 
   post {
     always {
