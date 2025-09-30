@@ -68,6 +68,12 @@ pipeline {
       }
     }
 
+    stage('Security Scan') {
+      steps {
+        echo "Running security scan (placeholder stage)..."
+      }
+    }
+
     stage('Deploy: Docker') {
       when {
         expression { return params.DEPLOY_LOCAL }
@@ -82,8 +88,20 @@ pipeline {
           docker rm my-app || exit 0
 
           echo Starting new container...
-          docker run -d --name My-app -p %APP_PORT%:8081 %IMAGE%:%VERSION%
+          docker run -d --name my-app -p %APP_PORT%:8081 %IMAGE%:%VERSION%
         '''
+      }
+    }
+
+    stage('Release') {
+      steps {
+        echo "Promoting build to Production (placeholder stage)..."
+      }
+    }
+
+    stage('Monitoring') {
+      steps {
+        echo "Monitoring application health (placeholder stage)..."
       }
     }
   }
