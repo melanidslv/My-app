@@ -49,7 +49,11 @@ pipeline {
       when { expression { return params.RUN_SONAR } }
       steps {
         withSonarQubeEnv('sonarqube') {
-          bat 'mvn -B -q sonar:sonar'
+          bat "mvn -B -q sonar:sonar " +
+                "-Dsonar.projectKey=d6d1ee10b16fe72188f1a51add9fda12a940a06b" +
+                "-Dsonar.organization=My-app " +
+                "-Dsonar.login=%SONAR_AUTH_TOKEN%"
+           }
         }
       }
       post {
