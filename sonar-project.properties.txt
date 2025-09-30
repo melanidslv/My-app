@@ -1,0 +1,6 @@
+sonar.projectKey=d6d1ee10b16fe72188f1a51add9fda12a940a06b
+sonar.projectName=My-app
+sonar.projectVersion=1.0.${env.BUILD_NUMBER}
+sonar.sources=app/src/main/java
+sonar.tests=app/src/test/java
+sonar.java.binaries=app/target/classes

@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  My-app:
+    image: ${IMAGE}:${TAG}
+    container_name: My-prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports: ["8081:8081"]
+    restart: unless-stopped
