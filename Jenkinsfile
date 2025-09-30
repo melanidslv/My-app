@@ -26,7 +26,8 @@ pipeline {
         bat 'mvn -B -q -DskipTests package'
       }
     }
-stage('Test') {
+
+    stage('Test') {
       steps {
         bat 'mvn -B -q test'
       }
@@ -41,13 +42,13 @@ stage('Test') {
       steps {
         withSonarQubeEnv('sonarqube') {
           withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-            bat '''
+            bat """
               mvn clean verify sonar:sonar ^
                 -Dsonar.projectKey=melanidslv_My-app ^
                 -Dsonar.organization=melanidslv ^
                 -Dsonar.host.url=https://sonarcloud.io ^
                 -Dsonar.token=%SONAR_TOKEN%
-            '''
+            """
           }
         }
       }
@@ -66,22 +67,26 @@ stage('Test') {
         archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
       }
     }
-    
-   stage('Deploy: Docker') {
-  steps {
-    bat '''
-      echo Building Docker image...
-      docker build -t my-app:latest -f Dockerfile .
 
-      echo Stopping old container (if running)...
-      docker stop my-app || exit 0
-      docker rm my-app || exit 0
+    stage('Deploy: Docker') {
+      when {
+        expression { return params.DEPLOY_LOCAL }
+      }
+      steps {
+        bat '''
+          echo Building Docker image...
+          docker build -t %IMAGE%:%VERSION% -t %IMAGE%:latest -f Dockerfile .
 
-      echo Starting new container...
-      docker run -d --name My-app -p 8081:8080 my-app:latest
-    '''
+          echo Stopping old container (if running)...
+          docker stop my-app || exit 0
+          docker rm my-app || exit 0
+
+          echo Starting new container...
+          docker run -d --name my-app -p %APP_PORT%:8080 %IMAGE%:%VERSION%
+        '''
+      }
+    }
   }
-}
 
   post {
     always {
