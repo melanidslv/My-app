@@ -26,8 +26,7 @@ pipeline {
         bat 'mvn -B -q -DskipTests package'
       }
     }
-
-    stage('Test') {
+stage('Test') {
       steps {
         bat 'mvn -B -q test'
       }
@@ -67,45 +66,22 @@ pipeline {
         archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
       }
     }
+    
+   stage('Deploy: Docker') {
+  steps {
+    bat '''
+      echo Building Docker image...
+      docker build -t my-app:latest -f Dockerfile .
 
-    stage('Docker Build') {
-      when { expression { return params.DOCKER_BUILD } }
-      steps {
-        bat '''
-          docker build -t %IMAGE%:%VERSION% -t %IMAGE%:latest -f Dockerfile .
-        '''
-      }
-    }
+      echo Stopping old container (if running)...
+      docker stop my-app || exit 0
+      docker rm my-app || exit 0
 
-    stage('Deploy: Local (Docker Desktop)') {
-      when { expression { return params.DEPLOY_LOCAL && params.DOCKER_BUILD } }
-      steps {
-        // Redeploy locally with compose
-        bat '''
-          set IMAGE=%IMAGE%
-          set TAG=%VERSION%
-          docker compose -f docker-compose.local.yml down || exit 0
-          docker compose -f docker-compose.local.yml up -d
-        '''
-
-        // Health check with PowerShell
-        bat '''
-          powershell -Command "
-            $max=30
-            for ($i=0; $i -lt $max; $i++) {
-              try {
-                $code = (Invoke-WebRequest -UseBasicParsing http://localhost:%APP_PORT%/actuator/health).StatusCode
-                if ($code -eq 200) { exit 0 }
-              } catch {}
-              Start-Sleep -Seconds 2
-            }
-            Write-Error 'Health check failed'
-            exit 1
-          "
-        '''
-      }
-    }
+      echo Starting new container...
+      docker run -d --name My-app -p 8081:8080 my-app:latest
+    '''
   }
+}
 
   post {
     always {
