@@ -20,21 +20,17 @@ pipeline {
 
     stage('Build') {
       steps {
-        dir('app') {
-          bat 'mvn -B -q -DskipTests package'
-        }
+        bat 'mvn -B -q -DskipTests package'
       }
     }
 
     stage('Test') {
       steps {
-        dir('app') {
-          bat 'mvn -B -q test'
-        }
+        bat 'mvn -B -q test'
       }
       post {
         always {
-          junit allowEmptyResults: true, testResults: 'app/target/surefire-reports/*.xml'
+          junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
         }
       }
     }
@@ -45,7 +41,7 @@ pipeline {
       echo "Build & tests passed on Windows Jenkins"
     }
     failure {
-      echo " Build failed — check logs"
+      echo "Build failed-check logs"
     }
   }
 }
