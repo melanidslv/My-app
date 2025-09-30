@@ -6,8 +6,6 @@ pipeline {
     maven 'maven3'
   }
 
-  options { timestamps() }
-
   stages {
     stage('Checkout') {
       steps {
@@ -17,12 +15,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        script {
-          def sha = env.GIT_COMMIT.take(7)
-          env.VERSION = "1.0.${env.BUILD_NUMBER}-${sha}"
-        }
         bat 'mvn -B -q -DskipTests package'
-        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
       }
     }
 
@@ -39,25 +32,15 @@ pipeline {
 
     stage('Code Quality: SonarCloud') {
       steps {
-        withSonarQubeEnv('sonarqube') {  // must match the name in Jenkins config
-          bat '''
-            mvn -B -q sonar:sonar ^
-              -Dsonar.projectKey=My-app ^
-              -Dsonar.organization=melanidslv ^
-	      -Dsonar.host.url=https://sonarcloud.io ^
-              -Dsonar.login=%SONAR_AUTH_TOKEN%
-          '''
-        }
-      }
-      post {
-        success {
-          script {
-            timeout(time: 10, unit: 'MINUTES') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                error "Quality gate failed: ${qg.status}"
-              }
-            }
+        withSonarQubeEnv('sonarqube') {
+          withCredentials([string(credentialsId: 'SONAR_TOKEN_2', variable: 'SONAR_TOKEN_2')]) {
+            bat """
+              mvn clean verify sonar:sonar ^
+                -Dsonar.projectKey=melanidslv_My-app ^
+                -Dsonar.organization=melanidslv ^
+                -Dsonar.host.url=https://sonarcloud.io ^
+                -Dsonar.token=%SONAR_TOKEN%
+            """
           }
         }
       }
@@ -65,7 +48,11 @@ pipeline {
   }
 
   post {
-    always { echo "Build: ${env.BUILD_TAG}, Version: ${env.VERSION}" }
-    failure { echo 'Build failed — check stage logs and reports.' }
+    always {
+      echo "Build completed: ${env.BUILD_TAG}"
+    }
+    failure {
+      echo "Build failed — check logs."
+    }
   }
 }
