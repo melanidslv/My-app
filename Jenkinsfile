@@ -71,7 +71,7 @@ pipeline {
     stage('Docker Build') {
       when { expression { return params.DOCKER_BUILD } }
       steps {
-        sh """
+        bat """
           docker build -t ${IMAGE}:${VERSION} \
                        -t ${IMAGE}:latest \
                        -f Dockerfile .
@@ -83,7 +83,7 @@ pipeline {
       when { expression { return params.DEPLOY_LOCAL && params.DOCKER_BUILD } }
       steps {
         // Redeploy locally with compose
-        sh """
+        bat """
           export IMAGE='${IMAGE}'
           export TAG='${VERSION}'
           docker compose -f docker-compose.local.yml down || true
@@ -91,7 +91,7 @@ pipeline {
         """
 
         // Quick health check
-        sh """
+        bat """
           for i in {1..30}; do
             code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_PORT}/actuator/health || true)
             [ "$code" = "200" ] && exit 0
