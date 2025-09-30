@@ -1,0 +1,63 @@
+
+`com.example.usercrud.service.UserService#get(Ljava/util/UUID;)Lcom/example/usercrud/domain/User;…
+{C:/Users/sit.SIT-63590-0823/OneDrive/SIT753-PP/task7.3HD/My-app/src/main/java/com/example/usercrud/service/UserService.java# #("startingBlock*¤
+startingBlock# #(­
+ª
+" "(!
+%7"
+__annotate*X
+
+__unknown_file (<:
+8org.springframework.transaction.annotation.Transactional*2
+
+__unknown_file (
+
+idjava.util.UUIDT
+R
+# #(
+idjava.util.UUID"__annotation*"
+
+__unknown_file (
+
+%7*
+1*Û
+1$ $(—
+”
+$ $(.
+%0(com.example.usercrud.repo.UserRepository"__id*R
+
+__unknown_file (6*4*
+(com.example.usercrud.service.UserService"
+repo¬©
+$ $(
+%1java.util.Optional"corg.springframework.data.repository.CrudRepository#findById(Ljava/lang/Object;)Ljava/util/Optional;*L
+
+__unknown_file (0
+.
+%0(com.example.usercrud.repo.UserRepository*2
+
+__unknown_file (
+
+idjava.util.UUID2findById(Ljava/lang/Object;)ž
+›
+% %(S!
+%2java.util.function.Supplier"__declareFunction*Y
+
+__unknown_file (=;
+9__sonar_lambda_0$com.example.usercrud.service.UserService«¨
+$ %(T&
+%6 com.example.usercrud.domain.User"Ojava.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;*6
+
+__unknown_file (
+
+%1java.util.Optional*?
+
+__unknown_file (#
+!
+%2java.util.function.Supplier2*orElseThrow(Ljava/util/function/Supplier;)"4
+$ %(U(
+&
+%6 com.example.usercrud.domain.User: 
+# #(
+idjava.util.UUIDB,*
+(com.example.usercrud.service.UserServiceH

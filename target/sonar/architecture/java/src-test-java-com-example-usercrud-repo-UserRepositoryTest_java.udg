@@ -1,0 +1,534 @@
+
+1.0melanidslv_My-appJavaFrontend"1759214234775*java2.Bô
+D
+?src/test/java/com/example/usercrud/repo/UserRepositoryTest.java2
+	
+type3
+	
+TEST4
+
+
+module-key5
+
+melanidslv_My-app6
+
+package8
+0
++melanidslv_My-app:com.example.usercrud.repo9
+2
+,com.example.usercrud.repo.UserRepositoryTest11
+
+class12
+
+access13
+
+	protected14
+
+simple-name15
+
+UserRepositoryTest16
+E
+?org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest18
+
+unknown19
+
+annotated by20
+
+
+uses21
+7
+1com.example.usercrud.repo.UserRepositoryTest.repo23
+
+field24
+
+private25
+
+
+repo26
+.
+(com.example.usercrud.repo.UserRepository28
+
+is type29
+<
+6org.springframework.beans.factory.annotation.Autowired31
+H
+Bcom.example.usercrud.repo.UserRepositoryTest#saveAndFindByEmail()V33
+
+method34
+
+saveAndFindByEmail35
+ 
+org.junit.jupiter.api.Test37
+'
+!org.junit.jupiter.api.DisplayName39
+&
+ com.example.usercrud.domain.User41
+
+calls42
+
+
+references43
+H
+Bcom.example.usercrud.domain.User#setFirstName(Ljava/lang/String;)V45
+G
+Acom.example.usercrud.domain.User#setLastName(Ljava/lang/String;)V47
+D
+>com.example.usercrud.domain.User#setEmail(Ljava/lang/String;)V49
+
+returns50
+8
+2org.springframework.data.repository.CrudRepository52
+c
+]org.springframework.data.repository.CrudRepository#save(Ljava/lang/Object;)Ljava/lang/Object;54
+)
+#org.assertj.core.api.OptionalAssert56
+1
++org.assertj.core.api.AbstractOptionalAssert58
+j
+dorg.assertj.core.api.AbstractOptionalAssert#isPresent()Lorg/assertj/core/api/AbstractOptionalAssert;60
+%
+org.assertj.core.api.Assertions62
+k
+eorg.assertj.core.api.Assertions#assertThat(Ljava/util/Optional;)Lorg/assertj/core/api/OptionalAssert;64
+b
+\com.example.usercrud.repo.UserRepository#findByEmail(Ljava/lang/String;)Ljava/util/Optional;66
+0
+*org.assertj.core.api.AbstractBooleanAssert68
+e
+_org.assertj.core.api.AbstractBooleanAssert#isTrue()Lorg/assertj/core/api/AbstractBooleanAssert;70
+_
+Yorg.assertj.core.api.Assertions#assertThat(Z)Lorg/assertj/core/api/AbstractBooleanAssert;72
+Q
+Kcom.example.usercrud.repo.UserRepository#existsByEmail(Ljava/lang/String;)Z74
+A
+;com.example.usercrud.repo.UserRepositoryTest#uniqueEmail()V76
+
+uniqueEmail77
+;
+5org.springframework.data.jpa.repository.JpaRepository79
+n
+horg.springframework.data.jpa.repository.JpaRepository#saveAndFlush(Ljava/lang/Object;)Ljava/lang/Object;81
+)
+#org.assertj.core.api.AbstractAssert83
+n
+horg.assertj.core.api.AbstractAssert#isInstanceOf(Ljava/lang/Class;)Lorg/assertj/core/api/AbstractAssert;85
+2
+,org.assertj.core.api.AbstractThrowableAssert87
+ 
+™org.assertj.core.api.Assertions#assertThatThrownBy(Lorg/assertj/core/api/ThrowableAssert$ThrowingCallable;)Lorg/assertj/core/api/AbstractThrowableAssert;89
+=
+7org.springframework.dao.DataIntegrityViolationException91J#
+!
+1
+12
+
+3
+4
+
+5
+6Z
+
+7
+7982
+
+
+5
+6j¼
+
+80
+808119
+
+82
+828319
+
+30
+303119
+
+51
+515219
+
+69
+697019
+
+65
+656619
+
+17
+171819
+
+90
+909119
+
+84
+848519
+
+57
+575819
+
+61
+616219
+
+53
+535419
+B
+75<
+757634 *
+1 (210:7B
+
+
+13
+14
+
+
+15
+77
+
+88
+888919
+
+71
+717219
+
+86
+868719
+
+48
+484919
+
+67
+676819
+B
+32<
+323334 *
+1 (210:7B
+
+
+13
+14
+
+
+15
+35
+
+44
+444519
+
+27
+272819
+>
+108
+101112 *
+1 (:7B
+
+
+13
+14
+
+
+15
+16
+
+38
+383919
+
+36
+363719
+
+40
+404119
+
+46
+464719
+
+55
+555619
+B
+22<
+222324 *
+1 (210:7B
+
+
+13
+25
+
+
+15
+26
+
+73
+737419
+
+63
+636419
+
+59
+596019
+
+78
+787919r­
+
+101720*
+1 (
+
+101721*
+1 (
+
+222729*
+1 (
+
+223020*
+1 (
+
+223021*
+1 (
+
+222721*
+1 (
+
+222721*
+1 (
+
+323620*
+1 (
+
+323621*
+1 (
+
+323820*
+1 (
+
+323821*
+1 (
+
+324029*
+1
+ (
+
+324021*
+1 (	
+
+324042*
+1 (
+
+324043*
+1 (
+
+324442*
+1 (
+
+324043*
+1 (
+
+324642*
+1 (
+
+324043*
+1 (
+
+324842*
+1 (
+
+324050*
+1 (	
+
+325143*
+1 (	
+
+325342*
+1
+ (
+
+322243*
+1 (	
+
+322721*
+1 (	
+
+322243*
+1 (	
+
+325550*
+1 (
+
+325743*
+1 (
+
+325942*
+15 (>
+
+325550*
+1 (
+
+326143*
+1 (
+
+326342*
+1 (
+
+322743*
+1 (
+
+326542*
+1 ( 
+
+322243*
+1 (
+
+322721*
+1 (
+
+322243*
+1 (
+
+326743*
+1 (
+
+326942*
+17 (=
+
+326750*
+1 (
+
+326143*
+1 (
+
+327142*
+1 (
+
+322743*
+1 (
+
+327342*
+1 ("
+
+322243*
+1 (
+
+322721*
+1 (
+
+322243*
+1 (
+
+753620*
+1 (
+
+753621*
+1 (
+
+753820*
+1   (
+
+753821*
+1   (
+
+754029*
+1"
+ "(
+
+754021*
+1" "(	
+
+754042*
+1" "(
+
+754043*
+1# #(
+
+754442*
+1# #(
+
+754043*
+1$ $(
+
+754642*
+1$ $(
+
+754043*
+1% %(
+
+754842*
+1% %(
+
+754050*
+1& &(	
+
+757843*
+1& &(	
+
+758042*
+1&
+ &(
+
+752243*
+1& &(	
+
+752721*
+1& &(	
+
+752243*
+1& &(	
+
+754029*
+1(
+ ((
+
+754021*
+1( ((	
+
+754042*
+1( ((
+
+754043*
+1) )(
+
+754442*
+1) )(
+
+754043*
+1* *(
+
+754642*
+1* *(
+
+754043*
+1+ +(
+
+754842*
+1+ +(
+
+758243*
+1- -(
+
+758442*
+1/ /(
+
+758650*
+1- -(
+
+756143*
+1- -(
+
+758842*
+1- -(
+
+754050*
+1. .(
+
+757843*
+1. .(
+
+758042*
+1. .(
+
+752243*
+1. .(
+
+752721*
+1. .(
+
+752243*
+1. .(
+
+759021*
+1/ /(4

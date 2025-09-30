@@ -1,0 +1,570 @@
+
+1.0melanidslv_My-appJavaFrontend"1759214232870*java2.B
+8
+3src/main/java/com/example/usercrud/domain/User.java2
+	
+type3
+	
+MAIN4
+
+
+module-key5
+
+melanidslv_My-app6
+
+package8
+2
+-melanidslv_My-app:com.example.usercrud.domain9
+&
+ com.example.usercrud.domain.User11
+
+class12
+
+access13
+
+public14
+
+simple-name15
+
+
+User16
+ 
+jakarta.persistence.Entity18
+
+unknown19
+
+annotated by20
+
+
+uses21
+
+jakarta.persistence.Table23
+*
+$jakarta.persistence.UniqueConstraint25
+)
+#com.example.usercrud.domain.User.id27
+
+field28
+
+private29
+
+id30
+
+jakarta.persistence.Id32
+-
+'org.hibernate.annotations.UuidGenerator34
+,
+&org.hibernate.annotations.JdbcTypeCode36
+!
+org.hibernate.type.SqlTypes38
+)
+#org.hibernate.type.SqlTypes.VARCHAR40
+
+
+references41
+ 
+jakarta.persistence.Column43
+0
+*com.example.usercrud.domain.User.firstName45
+
+	firstName46
+-
+'jakarta.validation.constraints.NotBlank48
+/
+)com.example.usercrud.domain.User.lastName50
+
+lastName51
+,
+&com.example.usercrud.domain.User.email53
+
+email54
+*
+$jakarta.validation.constraints.Email56
+0
+*com.example.usercrud.domain.User.createdAt58
+
+	createdAt59
+1
++org.hibernate.annotations.CreationTimestamp61
+0
+*com.example.usercrud.domain.User.updatedAt63
+
+	updatedAt64
+/
+)org.hibernate.annotations.UpdateTimestamp66
+>
+8com.example.usercrud.domain.User#getId()Ljava/util/UUID;68
+
+method69
+
+getId70
+?
+9com.example.usercrud.domain.User#setId(Ljava/util/UUID;)V72
+
+setId73
+G
+Acom.example.usercrud.domain.User#getFirstName()Ljava/lang/String;75
+
+getFirstName76
+H
+Bcom.example.usercrud.domain.User#setFirstName(Ljava/lang/String;)V78
+
+setFirstName79
+F
+@com.example.usercrud.domain.User#getLastName()Ljava/lang/String;81
+
+getLastName82
+G
+Acom.example.usercrud.domain.User#setLastName(Ljava/lang/String;)V84
+
+setLastName85
+C
+=com.example.usercrud.domain.User#getEmail()Ljava/lang/String;87
+
+getEmail88
+D
+>com.example.usercrud.domain.User#setEmail(Ljava/lang/String;)V90
+
+setEmail91
+H
+Bcom.example.usercrud.domain.User#getCreatedAt()Ljava/time/Instant;93
+
+getCreatedAt94
+H
+Bcom.example.usercrud.domain.User#getUpdatedAt()Ljava/time/Instant;96
+
+getUpdatedAt97J#
+!
+1
+12
+
+3
+4
+
+5
+6Z
+
+7
+7982
+
+
+5
+6j„
+
+17
+171819
+B
+52<
+525328 *
+1# #(210:7B
+
+
+13
+29
+
+
+15
+54
+B
+86<
+868769 *
+15 5(	210:7B
+
+
+13
+14
+
+
+15
+88
+B
+49<
+495028 *
+1 (210:7B
+
+
+13
+29
+
+
+15
+51
+
+60
+606119
+B
+26<
+262728 *
+1 (210:7B
+
+
+13
+29
+
+
+15
+30
+B
+92<
+929369 *
+17 7(	210:7B
+
+
+13
+14
+
+
+15
+94
+B
+44<
+444528 *
+1 (210:7B
+
+
+13
+29
+
+
+15
+46
+
+22
+222319
+B
+74<
+747569 *
+11 1(	210:7B
+
+
+13
+14
+
+
+15
+76
+
+37
+373819
+
+24
+242519
+
+33
+333419
+B
+80<
+808169 *
+13 3(	210:7B
+
+
+13
+14
+
+
+15
+82
+B
+89<
+899069 *
+16 6(	210:7B
+
+
+13
+14
+
+
+15
+91
+B
+71<
+717269 *
+10 0(	210:7B
+
+
+13
+14
+
+
+15
+73
+
+65
+656619
+
+55
+555619
+B
+77<
+777869 *
+12 2(	210:7B
+
+
+13
+14
+
+
+15
+79
+
+31
+313219
+B
+62<
+626328 *
+1+ +(210:7B
+
+
+13
+29
+
+
+15
+64
+B
+95<
+959669 *
+18 8(	210:7B
+
+
+13
+14
+
+
+15
+97
+B
+57<
+575828 *
+1' '(210:7B
+
+
+13
+29
+
+
+15
+59
+B
+67<
+676869 *
+1/ /(	210:7B
+
+
+13
+14
+
+
+15
+70
+
+39
+394019
+
+42
+424319
+>
+108
+101112 *
+1 (:7B
+
+
+13
+14
+
+
+15
+16
+
+47
+474819
+B
+83<
+838469 *
+14 4(	210:7B
+
+
+13
+14
+
+
+15
+85
+
+35
+353619rè
+
+101720*
+1 (
+
+101721*
+1 (
+
+102220*
+1 (
+
+102221*
+1 (
+
+102420*
+1 (
+
+102421*
+1 (
+
+263120*
+1 (
+
+263121*
+1 (
+
+263320*
+1 (
+
+263321*
+1 (
+
+263520*
+1 (
+
+263521*
+1 (
+
+263721*
+1 (
+
+263941*
+1 (!
+
+264220*
+1 (
+
+264221*
+1 (
+
+
+444720*
+1 (
+
+444721*
+1 (
+
+444220*
+1 (
+
+444221*
+1 (
+
+
+494720*
+1 (
+
+494721*
+1 (
+
+494220*
+1   (
+
+494221*
+1   (
+
+
+525520*
+1# #(
+
+525521*
+1# #(	
+
+524720*
+1#
+ #(
+
+524721*
+1# #(
+
+524220*
+1$ $(
+
+524221*
+1$ $(
+
+
+576020*
+1' '(
+
+576021*
+1' '(
+
+574220*
+1( ((
+
+574221*
+1( ((
+
+
+626520*
+1+ +(
+
+626521*
+1+ +(
+
+624220*
+1, ,(
+
+624221*
+1, ,(
+
+
+672641*
+1/  /("
+
+711021*
+10  0($
+
+711041*
+10  0($
+
+712641*
+10% 0('
+
+744441*
+11) 1(2
+
+771021*
+120 2(4
+
+771041*
+120 2(4
+
+774441*
+125 2(>
+
+804941*
+13( 3(0
+
+831021*
+14. 4(2
+
+831041*
+14. 4(2
+
+834941*
+143 4(;
+
+865241*
+15% 5(*
+
+891021*
+16( 6(,
+
+891041*
+16( 6(,
+
+895241*
+16- 6(2
+
+925741*
+17* 7(3
+
+956241*
+18* 8(3

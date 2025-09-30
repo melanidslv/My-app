@@ -1,0 +1,21 @@
+
+>com.example.usercrud.web.UserController#list()Ljava/util/List;„
+zC:/Users/sit.SIT-63590-0823/OneDrive/SIT753-PP/task7.3HD/My-app/src/main/java/com/example/usercrud/web/UserController.java( (("1*Š
+1) )(™
+–
+) )(.
+%0(com.example.usercrud.service.UserService"__id*T
+
+__unknown_file (8*6)
+'com.example.usercrud.web.UserController"	
+serviceº·
+) )(
+%1java.util.List"?com.example.usercrud.service.UserService#list()Ljava/util/List;*L
+
+__unknown_file (0
+.
+%0(com.example.usercrud.service.UserService2list()""
+) )(
+
+%1java.util.ListB+)
+'com.example.usercrud.web.UserControllerH

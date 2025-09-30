@@ -33,7 +33,7 @@ pipeline {
     stage('Code Quality: SonarCloud') {
       steps {
         withSonarQubeEnv('sonarqube') {
-          withCredentials([string(credentialsId: 'SONAR_TOKEN_2', variable: 'SONAR_TOKEN_2')]) {
+          withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
             bat """
               mvn clean verify sonar:sonar ^
                 -Dsonar.projectKey=melanidslv_My-app ^

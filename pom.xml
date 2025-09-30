@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>user-crud</artifactId>
+  <artifactId>My-app</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>user-crud</name>
+  <name>My-app</name>
   <description>Simple Spring Boot CRUD (User) with tests</description>
 
   <parent>
