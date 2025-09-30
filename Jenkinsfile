@@ -29,10 +29,9 @@ pipeline {
     stage('Build') {
       steps {
         script {
-    def sha = env.GIT_COMMIT.take(7)   // short 7 chars
-    env.VERSION = "1.0.${env.BUILD_NUMBER}-${sha}"
-	}
-
+          def sha = env.GIT_COMMIT.take(7)
+          env.VERSION = "1.0.${env.BUILD_NUMBER}-${sha}"
+        }
         bat 'mvn -B -q -DskipTests package'
         archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
       }
@@ -48,12 +47,13 @@ pipeline {
     stage('Code Quality: SonarQube') {
       when { expression { return params.RUN_SONAR } }
       steps {
-        withSonarQubeEnv('sonarqube') {
-          bat "mvn -B -q sonar:sonar " +
-                "-Dsonar.projectKey=d6d1ee10b16fe72188f1a51add9fda12a940a06b" +
-                "-Dsonar.organization=My-app " +
-                "-Dsonar.login=%SONAR_AUTH_TOKEN%"
-           }
+        withSonarQubeEnv('sonarcloud') {   // must match Jenkins config name
+          bat '''
+            mvn -B -q sonar:sonar ^
+              -Dsonar.projectKey=d6d1ee10b16fe72188f1a51add9fda12a940a06b ^
+              -Dsonar.organization=My-app ^
+              -Dsonar.login=%SONAR_AUTH_TOKEN%
+          '''
         }
       }
       post {
@@ -61,7 +61,9 @@ pipeline {
           script {
             timeout(time: 10, unit: 'MINUTES') {
               def qg = waitForQualityGate()
-              if (qg.status != 'OK') error "Quality gate failed: ${qg.status}"
+              if (qg.status != 'OK') {
+                error "Quality gate failed: ${qg.status}"
+              }
             }
           }
         }
@@ -101,7 +103,6 @@ pipeline {
           docker compose -f docker\\docker-compose.staging.yml down || echo no_prev
           docker compose -f docker\\docker-compose.staging.yml up -d --force-recreate
         """
-        // Smoke check: wait for HTTP 200 from actuator health
         bat """
           powershell -NoProfile -Command ^
             "for($i=0;$i -lt 30;$i++){try{$r=Invoke-WebRequest -UseBasicParsing http://localhost:%APP_PORT%/actuator/health; if($r.StatusCode -eq 200){exit 0}}catch{}; Start-Sleep -s 2}; exit 1"
@@ -130,7 +131,7 @@ pipeline {
         """
         bat """
           powershell -NoProfile -Command ^
-            "for($i=0;$i -lt 30;$i++){try{$r=Invoke-WebRequest -UseBasicParsing http://localhost:8081/actuator/health; if($r.StatusCode -eq 200){exit 0}}catch{}; Start-Sleep -s 2}; exit 1"
+            "for($i=0;$i -lt 30;$i++){try{$r=Invoke-WebRequest -UseBasicParsing http://localhost:%APP_PORT%/actuator/health; if($r.StatusCode -eq 200){exit 0}}catch{}; Start-Sleep -s 2}; exit 1"
         """
       }
     }
