@@ -42,13 +42,13 @@ pipeline {
       steps {
         withSonarQubeEnv('sonarqube') {
           withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-            bat """
+            bat '''
               mvn clean verify sonar:sonar ^
                 -Dsonar.projectKey=melanidslv_My-app ^
                 -Dsonar.organization=melanidslv ^
                 -Dsonar.host.url=https://sonarcloud.io ^
                 -Dsonar.token=%SONAR_TOKEN%
-            """
+            '''
           }
         }
       }
@@ -71,11 +71,9 @@ pipeline {
     stage('Docker Build') {
       when { expression { return params.DOCKER_BUILD } }
       steps {
-        bat """
-          docker build -t ${IMAGE}:${VERSION} \
-                       -t ${IMAGE}:latest \
-                       -f Dockerfile .
-        """
+        bat '''
+          docker build -t %IMAGE%:%VERSION% -t %IMAGE%:latest -f Dockerfile .
+        '''
       }
     }
 
@@ -83,23 +81,28 @@ pipeline {
       when { expression { return params.DEPLOY_LOCAL && params.DOCKER_BUILD } }
       steps {
         // Redeploy locally with compose
-        bat """
-          export IMAGE='${IMAGE}'
-          export TAG='${VERSION}'
-          docker compose -f docker-compose.local.yml down || true
+        bat '''
+          set IMAGE=%IMAGE%
+          set TAG=%VERSION%
+          docker compose -f docker-compose.local.yml down || exit 0
           docker compose -f docker-compose.local.yml up -d
-        """
+        '''
 
-        // Quick health check
-        bat """
-          for i in {1..30}; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_PORT}/actuator/health || true)
-            [ "$code" = "200" ] && exit 0
-            sleep 2
-          done
-          echo "Health check failed"
-          exit 1
-        """
+        // Health check with PowerShell
+        bat '''
+          powershell -Command "
+            $max=30
+            for ($i=0; $i -lt $max; $i++) {
+              try {
+                $code = (Invoke-WebRequest -UseBasicParsing http://localhost:%APP_PORT%/actuator/health).StatusCode
+                if ($code -eq 200) { exit 0 }
+              } catch {}
+              Start-Sleep -Seconds 2
+            }
+            Write-Error 'Health check failed'
+            exit 1
+          "
+        '''
       }
     }
   }
