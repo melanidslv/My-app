@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+My-app,com.example.usercrud,UserCrudApplication,5,3,0,0,2,1,1,1,1,1
+My-app,com.example.usercrud.web.dto,CreateUserRequest,0,12,0,0,0,1,0,1,0,1
+My-app,com.example.usercrud.web.dto,UpdateUserRequest,0,12,0,0,0,1,0,1,0,1
+My-app,com.example.usercrud.domain,User,0,37,0,0,0,11,0,11,0,11
+My-app,com.example.usercrud.web.error,GlobalExceptionHandler,0,82,0,0,0,17,0,4,0,4
+My-app,com.example.usercrud.web,UserController,4,59,0,0,1,16,1,5,1,5
+My-app,com.example.usercrud.service,UserService,24,61,1,1,6,15,2,6,1,6

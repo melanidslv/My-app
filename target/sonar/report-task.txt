@@ -3,5 +3,5 @@ projectKey=melanidslv_My-app
 serverUrl=https://sonarcloud.io
 serverVersion=8.0.0.67857
 dashboardUrl=https://sonarcloud.io/dashboard?id=melanidslv_My-app
-ceTaskId=AZmZVyxeDONcU4zLZVrM
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZmZVyxeDONcU4zLZVrM
+ceTaskId=AZmZawohlYOMaxftp8ja
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZmZawohlYOMaxftp8ja

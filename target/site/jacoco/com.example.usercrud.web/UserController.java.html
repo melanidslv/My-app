@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">My-app</a> &gt; <a href="index.source.html" class="el_package">com.example.usercrud.web</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.example.usercrud.web;
+
+import com.example.usercrud.domain.User;
+import com.example.usercrud.service.UserService;
+import com.example.usercrud.web.dto.CreateUserRequest;
+import com.example.usercrud.web.dto.UpdateUserRequest;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping(&quot;/api/users&quot;)
+public class UserController {
+
+  private final UserService service;
+
+<span class="fc" id="L20">  public UserController(UserService service) {</span>
+<span class="fc" id="L21">    this.service = service;</span>
+<span class="fc" id="L22">  }</span>
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public User create(@Valid @RequestBody CreateUserRequest req) {
+<span class="fc" id="L27">    User u = new User();</span>
+<span class="fc" id="L28">    u.setFirstName(req.firstName());</span>
+<span class="fc" id="L29">    u.setLastName(req.lastName());</span>
+<span class="fc" id="L30">    u.setEmail(req.email());</span>
+<span class="fc" id="L31">    return service.create(u);</span>
+  }
+
+  @GetMapping(&quot;/{id}&quot;)
+  public User get(@PathVariable UUID id) {
+<span class="fc" id="L36">    return service.get(id);</span>
+  }
+
+  @GetMapping
+  public List&lt;User&gt; list() {
+<span class="nc" id="L41">    return service.list();</span>
+  }
+
+  @PutMapping(&quot;/{id}&quot;)
+  public User update(@PathVariable UUID id, @Valid @RequestBody UpdateUserRequest req) {
+<span class="fc" id="L46">    User p = new User();</span>
+<span class="fc" id="L47">    p.setFirstName(req.firstName());</span>
+<span class="fc" id="L48">    p.setLastName(req.lastName());</span>
+<span class="fc" id="L49">    p.setEmail(req.email());</span>
+<span class="fc" id="L50">    return service.update(id, p);</span>
+  }
+
+  @DeleteMapping(&quot;/{id}&quot;)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable UUID id) {
+<span class="fc" id="L56">    service.delete(id);</span>
+<span class="fc" id="L57">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

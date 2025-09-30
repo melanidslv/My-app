@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">My-app</a> &gt; <a href="index.source.html" class="el_package">com.example.usercrud.web.error</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.example.usercrud.web.error;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+@ControllerAdvice
+<span class="fc" id="L16">public class GlobalExceptionHandler {</span>
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity&lt;?&gt; handleValidation(MethodArgumentNotValidException ex) {
+<span class="fc" id="L20">    Map&lt;String, Object&gt; body = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L21">    body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="fc" id="L22">    body.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="fc" id="L23">    Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L24">    ex.getBindingResult().getAllErrors().forEach(err -&gt; {</span>
+<span class="fc" id="L25">      String field = ((FieldError) err).getField();</span>
+<span class="fc" id="L26">      String msg = err.getDefaultMessage();</span>
+<span class="fc" id="L27">      errors.put(field, msg);</span>
+<span class="fc" id="L28">    });</span>
+<span class="fc" id="L29">    body.put(&quot;errors&quot;, errors);</span>
+<span class="fc" id="L30">    return ResponseEntity.badRequest().body(body);</span>
+  }
+
+  @ExceptionHandler(ResponseStatusException.class)
+  public ResponseEntity&lt;?&gt; handleRse(ResponseStatusException ex) {
+<span class="fc" id="L35">    Map&lt;String, Object&gt; body = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L36">    body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="fc" id="L37">    body.put(&quot;status&quot;, ex.getStatusCode().value());</span>
+<span class="fc" id="L38">    body.put(&quot;message&quot;, ex.getReason());</span>
+<span class="fc" id="L39">    return ResponseEntity.status(ex.getStatusCode()).body(body);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
