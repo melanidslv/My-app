@@ -71,9 +71,18 @@ pipeline {
           docker compose -f docker-compose.local.yml up -d
         '''
         // Quick health check (adjust if you changed the path)
-        sh 'for i in {1..30}; do code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_PORT}/actuator/health || true); [ "$code" = "200" ] && exit 0; sleep 2; done; echo "Health check failed" && exit 1'
+        sh '''
+          for i in {1..30}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_PORT}/actuator/health || true)
+            [ "$code" = "200" ] && exit 0
+            sleep 2
+          done
+          echo "Health check failed"
+          exit 1
+        '''
       }
     }
+  }
 
   post {
     always {
