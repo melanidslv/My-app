@@ -20,60 +20,21 @@ pipeline {
 
     stage('Build') {
       steps {
-        dir('app') {   // change to the folder containing pom.xml
-     	 bat 'mvn -B -q -DskipTests package'
-    	}
+        dir('app') {
+          bat 'mvn -B -q -DskipTests package'
+        }
       }
     }
 
     stage('Test') {
       steps {
-    dir('app') {   // same here
-      bat 'mvn -B -q test'
-    	}
+        dir('app') {
+          bat 'mvn -B -q test'
+        }
+      }
       post {
         always {
-          junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
-        }
-      }
-    }
-
-    stage('SonarQube Analysis') {
-      when { expression { return params.RUN_SONAR } }
-      steps {
-        withSonarQubeEnv('sonarqube') {
-          bat 'mvn -B -q sonar:sonar'
-        }
-      }
-    }
-
-    stage('Docker Build') {
-      when { expression { return params.DOCKER_BUILD } }
-      steps {
-        bat """
-          docker build -t %IMAGE%:%VERSION% -t %IMAGE%:latest -f Dockerfile .
-        """
-      }
-    }
-
-    stage('Trivy Scan') {
-      when { expression { return params.DOCKER_BUILD && params.RUN_TRIVY } }
-      steps {
-        bat """
-          docker run --rm -v %cd%:/workspace aquasec/trivy:latest image %IMAGE%:%VERSION%
-        """
-      }
-    }
-
-    stage('Push Image') {
-      when { expression { return params.DOCKER_BUILD && params.PUSH_IMAGE } }
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'docker-reg-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          bat '''
-            echo %DOCKER_PASS% | docker login %REGISTRY% -u %DOCKER_USER% --password-stdin
-            docker push %IMAGE%:%VERSION%
-            docker push %IMAGE%:latest
-          '''
+          junit allowEmptyResults: true, testResults: 'app/target/surefire-reports/*.xml'
         }
       }
     }
@@ -84,7 +45,7 @@ pipeline {
       echo "Build & tests passed on Windows Jenkins"
     }
     failure {
-      echo "Build failed — check logs"
+      echo " Build failed — check logs"
     }
   }
 }
