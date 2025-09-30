@@ -60,7 +60,18 @@ pipeline {
       }
     }
   }
-
+    stage('Deploy: Staging') {
+      steps {
+        sshagent(credentials: ['staging-ssh']) {
+          bat """
+ 		scripts/deploy.sh staging.example.com docker/docker-compose.staging.yml ${IMAGE} ${VERSION}
+	     """
+        }
+        bat """
+	scripts/smoke_test.sh http://staging.example.com:${APP_PORT}/actuator/health
+	"""
+      }
+    }
   post {
     always {
       echo "Build completed: ${env.BUILD_TAG}"
