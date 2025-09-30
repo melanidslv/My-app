@@ -5,7 +5,7 @@ pipeline {
     booleanParam(name: 'DEPLOY_LOCAL', defaultValue: true, description: 'Deploy to local Docker Desktop?')
     booleanParam(name: 'DOCKER_BUILD', defaultValue: true, description: 'Build Docker image?')
     string(name: 'APP_PORT', defaultValue: '8081', description: 'Application port for health check')
-    string(name: 'IMAGE', defaultValue: 'My-app', description: 'Docker image name')
+    string(name: 'IMAGE', defaultValue: 'my-app', description: 'Docker image name')
     string(name: 'VERSION', defaultValue: 'latest', description: 'Docker image tag')
   }
 
@@ -15,6 +15,7 @@ pipeline {
   }
 
   stages {
+
     stage('Checkout') {
       steps {
         checkout scm
@@ -70,7 +71,11 @@ pipeline {
 
     stage('Security Scan') {
       steps {
-        echo "Running security scan (placeholder stage)..."
+        bat '''
+          echo Running Trivy scan...
+          trivy fs --exit-code 0 --no-progress .
+          trivy config --exit-code 0 --no-progress .
+        '''
       }
     }
 
@@ -95,13 +100,26 @@ pipeline {
 
     stage('Release') {
       steps {
-        echo "Promoting build to Production (placeholder stage)..."
+        bat '''
+          echo Tagging and pushing Docker image as release...
+          docker tag %IMAGE%:%VERSION% my-dockerhub-user/%IMAGE%:%VERSION%
+          docker push my-dockerhub-user/%IMAGE%:%VERSION%
+        '''
       }
     }
 
     stage('Monitoring') {
       steps {
-        echo "Monitoring application health (placeholder stage)..."
+        bat '''
+          echo Checking application health...
+          for /L %%i in (1,1,10) do (
+            curl -s -o NUL -w "HTTP CODE: %%{http_code}\\n" http://localhost:%APP_PORT%/actuator/health
+            if !errorlevel! == 0 exit /b 0
+            timeout /t 5
+          )
+          echo Health check failed!
+          exit /b 1
+        '''
       }
     }
   }
