@@ -5,7 +5,7 @@ pipeline {
     booleanParam(name: 'DEPLOY_LOCAL', defaultValue: true, description: 'Deploy to local Docker Desktop?')
     booleanParam(name: 'DOCKER_BUILD', defaultValue: true, description: 'Build Docker image?')
     string(name: 'APP_PORT', defaultValue: '8081', description: 'Application port for health check')
-    string(name: 'IMAGE', defaultValue: 'my-app', description: 'Docker image name')
+    string(name: 'IMAGE', defaultValue: 'My-app', description: 'Docker image name')
     string(name: 'VERSION', defaultValue: 'latest', description: 'Docker image tag')
   }
 
@@ -82,7 +82,7 @@ pipeline {
           docker rm my-app || exit 0
 
           echo Starting new container...
-          docker run -d --name my-app -p %APP_PORT%:8080 %IMAGE%:%VERSION%
+          docker run -d --name My-app -p %APP_PORT%:8081 %IMAGE%:%VERSION%
         '''
       }
     }
