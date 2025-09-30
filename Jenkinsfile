@@ -29,9 +29,10 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          def sha = bat(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-          env.VERSION = "1.0.${env.BUILD_NUMBER}-${sha}"
-        }
+    def sha = env.GIT_COMMIT.take(7)   // short 7 chars
+    env.VERSION = "1.0.${env.BUILD_NUMBER}-${sha}"
+	}
+
         bat 'mvn -B -q -DskipTests package'
         archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
       }
