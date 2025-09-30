@@ -1,0 +1,8 @@
+com\example\usercrud\service\UserService.class
+com\example\usercrud\domain\User.class
+com\example\usercrud\web\dto\CreateUserRequest.class
+com\example\usercrud\web\UserController.class
+com\example\usercrud\UserCrudApplication.class
+com\example\usercrud\web\error\GlobalExceptionHandler.class
+com\example\usercrud\web\dto\UpdateUserRequest.class
+com\example\usercrud\repo\UserRepository.class
